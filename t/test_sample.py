@@ -11,6 +11,9 @@ def test_samples():
     l0 = ["pkg.name", "ClassName", "disp_name"]
     n0 = Names(*l0)
     ss = SampleSet()
-    ss.record(l0, v0)
-    assert ss[l0][0].v == v0
-    assert ss[l0][0].t >= t0
+    ss[l0] = v0
+    assert ss[l0].v == v0
+    assert ss[l0].t >= t0
+
+    for k in ss:
+        assert isinstance(k, Names)

@@ -3,8 +3,10 @@
 import time
 from collections import OrderedDict, namedtuple
 
+LOAD_TIME = time.time()
 
-class Names(namedtuple("_Names", ["pkg", "name", "short"])):
+
+class Names( namedtuple('_Names', ['pkg', 'name', 'disp']) ):
     """
     Container for information about where a value came from.
     :Names.pkg: The package that contains the ``name``
@@ -12,13 +14,26 @@ class Names(namedtuple("_Names", ["pkg", "name", "short"])):
     :Names.short: The short or display name for the value (e.g., duration, size, etc)
     """
 
-    @property
-    def long(self):
-        return ".".join([self.pkg, self.name])
+    def __new__(self, pkg, name, disp=None):
+        if name.startswith(pkg):
+            name = name[len(pkg)+1:]
+
+        if disp is None:
+            disp = name
+
+        return super().__new__(self, pkg, name, disp)
+
 
     @property
-    def disp(self):
-        return self.short
+    def long(self):
+        return f'{self.pkg}.{self.name}'
+
+    @property
+    def short(self):
+        return f'{self.disp}'
+
+    def __repr__(self):
+        return f'<{self.name}:{self.disp}>'
 
 
 class Sample:
@@ -31,6 +46,13 @@ class Sample:
     def __init__(self, value, t=None):
         self.v = value
         self.t = time.time() if t is None else t
+
+    @property
+    def dt(self):
+        return self.t - LOAD_TIME
+
+    def __repr__(self):
+        return f'{self.v}@{self.dt}'
 
 
 def _check_key(k):
@@ -48,12 +70,9 @@ class SampleSet(OrderedDict):
             return super().__getitem__(k)
         except KeyError:
             pass
-        r = self[k] = list()
-        return r
 
-    def record(self, k, v, t=None):
+    def __setitem__(self, k, v):
+        k = _check_key(k)
         if not isinstance(v, Sample):
-            v = Sample(v, t=t)
-        elif t is not None:
-            v = Sample(v.v, t=t)
-        self[k].append(v)
+            v = Sample(v)
+        super().__setitem__(k,v)
