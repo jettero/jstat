@@ -1,5 +1,13 @@
+# We like to use pre-commit but we prefer not to combine pre-commit/psf-black fixes with the commit step.
+# Instead, we block pushes until things get fixed.
+#
+# pre-commit install --hook-type pre-push
+#
+# but do whatever you like
+
 default_stages:
 - push
+
 fail_fast: true
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
