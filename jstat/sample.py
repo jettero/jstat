@@ -6,7 +6,7 @@ from collections import OrderedDict, namedtuple
 LOAD_TIME = time.time()
 
 
-class Names( namedtuple('_Names', ['pkg', 'name', 'disp']) ):
+class Names(namedtuple("_Names", ["pkg", "name", "disp"])):
     """
     Container for information about where a value came from.
     :Names.pkg: The package that contains the ``name``
@@ -16,7 +16,7 @@ class Names( namedtuple('_Names', ['pkg', 'name', 'disp']) ):
 
     def __new__(cls, pkg, name, disp=None, short=None):
         if name.startswith(pkg):
-            name = name[len(pkg)+1:]
+            name = name[len(pkg) + 1 :]
 
         if short is not None:
             disp = short
@@ -26,25 +26,24 @@ class Names( namedtuple('_Names', ['pkg', 'name', 'disp']) ):
 
         return super().__new__(cls, pkg, name, disp)
 
-
     @property
     def long(self):
-        return f'{self.pkg}.{self.name}'
+        return f"{self.pkg}.{self.name}"
 
     @long.setter
     def long(self, v):
-        self.pkg, self.name = v.rsplit('.', maxsplit=1)
+        self.pkg, self.name = v.rsplit(".", maxsplit=1)
 
     @property
     def short(self):
-        return f'{self.disp}'
+        return f"{self.disp}"
 
     @short.setter
     def short(self, v):
         self.disp = v
 
     def __repr__(self):
-        return f'<{self.name}:{self.disp}>'
+        return f"<{self.name}:{self.disp}>"
 
 
 class Sample:
@@ -63,7 +62,7 @@ class Sample:
         return self.t - LOAD_TIME
 
     def __repr__(self):
-        return f'{self.v}@{self.dt}'
+        return f"{self.v}@{self.dt}"
 
 
 def _check_key(k):
@@ -86,4 +85,4 @@ class SampleSet(OrderedDict):
         k = _check_key(k)
         if not isinstance(v, Sample):
             v = Sample(v)
-        super().__setitem__(k,v)
+        super().__setitem__(k, v)

@@ -3,8 +3,9 @@
 
 import pluggy
 
-hookspec = pluggy.HookspecMarker('jstat')
-hookimpl = pluggy.HookimplMarker('jstat')
+hookspec = pluggy.HookspecMarker("jstat")
+hookimpl = pluggy.HookimplMarker("jstat")
+
 
 @hookspec
 def get_sample():
