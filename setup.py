@@ -56,7 +56,5 @@ setup(
         # NOTE: use ./setup.py --version to regenerate version.py and print the
         # computed version
     },
-    entry_points={
-        "console_scripts": ["jstat = jstat.cmd:run"],
-    },
+    entry_points={"console_scripts": ["jstat = jstat.cmd:run"],},
 )
