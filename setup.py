@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# pylint: disable=import-outside-toplevel,attribute-defined-outside-init
 
 import sys
 from setuptools import setup, find_packages

@@ -2,11 +2,12 @@
 # coding: utf-8
 
 import os
-import sys
 import logging
 import pkgutil
 import importlib
 import pluggy
+
+import jstat.plugins
 
 log = logging.getLogger(__name__)
 
@@ -17,7 +18,6 @@ def get_manager():
 
     # modules in jstat.plugins should automatically load if possible
     log.debug("loading jstat.plugins.*")
-    import jstat.plugins
 
     plugin_path = os.path.dirname(jstat.plugins.__file__)
     manager.add_hookspecs(jstat.plugins)

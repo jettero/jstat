@@ -12,8 +12,12 @@ def test_samples():
     n0 = Names(*l0)
     ss = SampleSet()
     ss[l0] = v0
+
     assert ss[l0].v == v0
     assert ss[l0].t >= t0
+
+    assert ss[n0].v == v0
+    assert ss[n0].t >= t0
 
     for k in ss:
         assert isinstance(k, Names)

@@ -23,7 +23,7 @@ repos:
   hooks:
   - id: pylint
     name: pylint
-    entry: pylint
+    entry: ./my-pylint
     language: system
     types: [python]
 

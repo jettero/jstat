@@ -1,13 +1,12 @@
-#!/usr/bin/env python
+# pylint: disable=redefined-outer-name
 # coding: utf-8
 
 import pytest
+import jstat.manager
 
 
 @pytest.fixture(scope="session")
 def manager():
-    import jstat.manager
-
     return jstat.manager.get_manager()
 
 
