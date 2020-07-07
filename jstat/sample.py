@@ -14,7 +14,7 @@ class Names( namedtuple('_Names', ['pkg', 'name', 'disp']) ):
     :Names.short: The short or display name for the value (e.g., duration, size, etc)
     """
 
-    def __new__(self, pkg, name, disp=None, short=None):
+    def __new__(cls, pkg, name, disp=None, short=None):
         if name.startswith(pkg):
             name = name[len(pkg)+1:]
 
@@ -24,7 +24,7 @@ class Names( namedtuple('_Names', ['pkg', 'name', 'disp']) ):
         if disp is None:
             disp = name
 
-        return super().__new__(self, pkg, name, disp)
+        return super().__new__(cls, pkg, name, disp)
 
 
     @property
