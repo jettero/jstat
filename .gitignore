@@ -9,3 +9,4 @@ build
 jstat/__version__.py
 dist
 requirements.txt
+.pathed-run.log

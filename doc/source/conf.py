@@ -22,7 +22,7 @@ version = ".".join(release.split(".")[:2])
 # -- Project information -----------------------------------------------------
 
 project = "jstat"
-copyright = "2020, Paul Miller"
+copyright = "2020, Paul Miller"  # pylint: disable=redefined-builtin
 author = "Paul Miller"
 
 

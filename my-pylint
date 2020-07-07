@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-DIR="$(dirname "$0")"
-export PYTHONPATH="$DIR"
-
-pylint "$@"

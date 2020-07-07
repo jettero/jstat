@@ -7,7 +7,7 @@
 
 exclude: 'old/'
 
-fail_fast: true
+fail_fast: false
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v3.1.0
@@ -23,9 +23,15 @@ repos:
   hooks:
   - id: pylint
     name: pylint
-    entry: ./my-pylint
+    entry: ./pathed-pylintest pylint
     language: system
     types: [python]
+  - id: pytest
+    name: pytest
+    entry: ./pathed-pylintest pytest t
+    always_run: true
+    language: system
+    pass_filenames: false
 
 # this doesn't seem to quite work...
 # - repo: local
