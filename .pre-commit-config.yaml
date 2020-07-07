@@ -15,15 +15,17 @@ repos:
   - id: check-yaml
   - id: end-of-file-fixer
   - id: trailing-whitespace
-- repo: https://github.com/pycqa/pylint
-  rev: pylint-2.5.0
-  hooks:
-  - id: pylint
-    files: 'jstat/'
 - repo: https://github.com/psf/black
   rev: 19.10b0
   hooks:
   - id: black
+- repo: local
+  hooks:
+  - id: pylint
+    name: pylint
+    entry: pylint
+    language: system
+    types: [python]
 
 # this doesn't seem to quite work...
 # - repo: local
