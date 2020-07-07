@@ -1,7 +1,9 @@
-# We like to use pre-commit but we prefer not to combine pre-commit/psf-black fixes with the commit step.
-# Instead, we block pushes until things get fixed.
+# We like to use pre-commit but we prefer not to combine pre-commit/psf-black
+# fixes with the commit step.  Instead, we block pushes until things get fixed.
 #
 # pre-commit install --hook-type pre-push
+# by hand, that comes out to something like this:
+# pre-commit run --from-ref upstream/master --to-ref HEAD
 #
 # but do whatever you like
 
