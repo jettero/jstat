@@ -14,6 +14,9 @@ files-output=no
 [BASIC]
 bad-functions = input
 
+[TYPECHECK]
+ignored-modules=pluggy.hooks
+
 [DESIGN]
 max-line-length     = 200
 max-args            = 12
