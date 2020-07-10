@@ -48,7 +48,7 @@ setup(
         }
     },
     tests_require=["pytest"],
-    install_requires=["pygments", "pluggy"],
+    install_requires=["pygments", "pluggy", "click"],
     setup_requires=["setuptools_scm"],
     extras_require={"docs": ["sphinx"],},
     use_scm_version={
