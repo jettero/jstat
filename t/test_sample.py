@@ -4,6 +4,7 @@
 import time
 from jstat.data import Names, SampleSet
 
+
 def test_samples():
     t0 = time.time()
     v0 = 3.1415926

@@ -13,7 +13,8 @@ INSTALLED_DIR = os.path.dirname(jstat.spec.__file__)
 
 log = logging.getLogger(__name__)
 
-NAMESPACES = ('jstat.samplers', 'jstat.visualizers')
+NAMESPACES = ("jstat.samplers", "jstat.visualizers")
+
 
 def get_manager():
     manager = pluggy.PluginManager("jstat")
@@ -23,7 +24,7 @@ def get_manager():
 
     # modules in NAMESPACES (ie, internal modules) should automatically load
     for namespace in NAMESPACES:
-        plugin_path = os.path.join(INSTALLED_DIR, *namespace.split('.')[1:])
+        plugin_path = os.path.join(INSTALLED_DIR, *namespace.split(".")[1:])
         log.debug(f"loading {namespace}.* from {plugin_path}")
         for item in pkgutil.iter_modules([plugin_path], f"{namespace}."):
             if item.name == __name__:
