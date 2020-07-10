@@ -25,7 +25,7 @@ def get_manager():
     # modules in NAMESPACES (ie, internal modules) should automatically load
     for namespace in NAMESPACES:
         plugin_path = os.path.join(INSTALLED_DIR, *namespace.split(".")[1:])
-        log.debug(f"loading {namespace}.* from {plugin_path}")
+        log.debug("loading %s.* from %s", namespace, plugin_path)
         for item in pkgutil.iter_modules([plugin_path], f"{namespace}."):
             if item.name == __name__:
                 continue
