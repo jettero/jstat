@@ -15,7 +15,7 @@ files-output=no
 bad-functions = input
 
 [TYPECHECK]
-ignored-modules=pluggy.hooks
+generated-members=.*\.hook\.get_samples
 
 [DESIGN]
 max-line-length     = 200
