@@ -2,8 +2,7 @@
 # coding: utf-8
 
 import time
-from jstat.sample import Names, SampleSet
-
+from jstat.data import Names, SampleSet
 
 def test_samples():
     t0 = time.time()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import jstat.plugins
-from jstat.sample import SampleSet, Names
+from jstat.spec import sampler_hookimpl
+from jstat.data import SampleSet, Names
 
 CPU_FIELDS = (
     "user",
@@ -18,7 +18,7 @@ CPU_FIELDS = (
 )
 
 
-@jstat.plugins.hookimpl
+@sampler_hookimpl
 def get_samples():
     ret = SampleSet()
     with open("/proc/stat", "r") as fh:

@@ -13,4 +13,4 @@ def manager():
 def test_plugins(manager):
     names = [x[0] for x in manager.list_name_plugin()]
 
-    assert "jstat.plugins.proc_stat" in names
+    assert "jstat.samplers.proc_stat" in names
