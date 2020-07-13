@@ -1,0 +1,6 @@
+
+- I'd really like to be able to call sample plugins in parallel (maybe a
+  set of worker threads)
+  - this seems doable by monkeypatching pluggy.callers._multicall
+  - or simply passing that in to the pm = PluginManager() via
+    pm._inner_hookexec = some_cool_multithreaded_caller
