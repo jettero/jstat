@@ -74,6 +74,7 @@ def _check_key(k):
 
 
 class SampleSet(OrderedDict):
+    """ A set (presumably of all) the samples from a mainloop step """
     def __getitem__(self, k):
         k = _check_key(k)
         try:
