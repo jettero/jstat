@@ -78,6 +78,7 @@ class SampleSet(OrderedDict):
         Really just an ordered dict mapping names to sample values.
         It is *not* a table of historical data.
     """
+
     def __getitem__(self, k):
         k = _check_key(k)
         try:
