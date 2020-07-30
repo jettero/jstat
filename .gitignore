@@ -10,3 +10,6 @@ jstat/__version__.py
 dist
 requirements.txt
 .pathed-run.log
+
+# virtualenv stuff
+venv
