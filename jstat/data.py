@@ -74,9 +74,11 @@ def _check_key(k):
 
 
 class SampleSet(OrderedDict):
-    """ A set (presumably of all) the samples from a mainloop step.
-        Really just an ordered dict mapping names to sample values.
-        It is *not* a table of historical data.
+    """
+    A set (presumably of all) the samples from a mainloop step.  Really just an
+    ordered dict mapping names to sample values.
+
+    It is *not* a table of historical data.
     """
 
     def __getitem__(self, k):
