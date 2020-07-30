@@ -1,12 +1,12 @@
 
 PY := $(shell which python3)
 
-MAKE_AGAIN := make --no-print-directory
+imake := make --no-print-directory
 
 default:
-	@+ $(MAKE_AGAIN) install-reqs
-	@+ $(MAKE_AGAIN) version
-	@+ $(MAKE_AGAIN) test
+	@+ $(imake) install-reqs
+	@+ $(imake) version
+	@+ $(imake) test
 
 include mk/*.mk
 
