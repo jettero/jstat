@@ -1,13 +1,12 @@
-#!/usr/bin/env python
+# pylint: disable=redefined-outer-name
 # coding: utf-8
 
 import os
 import sys
-import pytest
 import subprocess
-
 from glob import glob
 
+import pytest
 import jstat.manager
 
 
@@ -15,7 +14,6 @@ import jstat.manager
 def example_plugins():
     test_dir = os.path.dirname(__file__)
     src_dir = os.path.dirname(test_dir)
-    jstat_dir = os.path.join(src_dir, "jstat")
     example_dir = os.path.join(src_dir, "example-plugins")
     elib_dir = os.path.join(example_dir, "lib")
 
@@ -33,5 +31,5 @@ def example_plugins():
 
 
 @pytest.fixture(scope="session")
-def jstat_mgr(example_plugins):
+def jstat_mgr(example_plugins):  # pylint: disable=unused-argument
     yield jstat.manager.get_manager()
