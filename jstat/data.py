@@ -53,15 +53,18 @@ class Sample:
     :Sample.v: the actual value
     """
 
-    def __init__(self, value, t=None):
+    def __init__(self, value, units=None, t=None):
         self.v = value
         self.t = time.time() if t is None else t
+        self.u = units
 
     @property
     def dt(self):
         return self.t - LOAD_TIME
 
     def __repr__(self):
+        if self.units:
+            return f"{self.v}{self.u}@{self.dt}"
         return f"{self.v}@{self.dt}"
 
 
