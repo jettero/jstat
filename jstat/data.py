@@ -63,7 +63,7 @@ class Sample:
         return self.t - LOAD_TIME
 
     def __repr__(self):
-        if self.units:
+        if self.u:
             return f"{self.v}{self.u}@{self.dt}"
         return f"{self.v}@{self.dt}"
 
@@ -101,8 +101,10 @@ class SampleSet(OrderedDict):
         super().__setitem__(k, v)
 
 class DataTable:
+    _time = Names(__package__, 'time', 'dt')
+
     def __init__(self, *SampleSet, previous=None):
-        self._headers = previous.headers if previous else ['time']
+        self._headers = previous.headers if previous else [self._time]
         self._rows    = dict()
         for ss in SampleSet:
             self.add_sample_set(ss)
@@ -110,8 +112,9 @@ class DataTable:
     def add_sample_set(self, sample_set):
         for name,sample in sample_set.items():
             t = int(sample.dt)
-            if t not in self.rows:
-                self.rows[t] = dict()
+            if t not in self._rows:
+                self._rows[t] = d = dict()
+                d[self._time] = t
             self._rows[t][name] = sample.v
             if name not in self._headers:
                 self._headers.append(name)
@@ -123,11 +126,11 @@ class DataTable:
     @property
     def row_iter(self):
         for t in sorted(self._rows):
-            yield [t] + [ self._rows[t].get(name, None) for name in self.headers ]
+            yield [ self._rows[t].get(name, None) for name in self.headers ]
 
     @property
     def rows(self):
         return list(self.row_iter)
 
     def __iter__(self):
-        return self.headers, self.rows
+        yield from (self.headers, self.rows)

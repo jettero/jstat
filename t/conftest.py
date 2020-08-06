@@ -8,7 +8,7 @@ from glob import glob
 
 import pytest
 import jstat.manager
-from jstat.data import Names, Sample, SampleSet, DataTable
+from jstat.data import Names, Sample, SampleSet, DataTable, LOAD_TIME
 
 @pytest.fixture
 def twenty_tabled_values():
@@ -37,9 +37,13 @@ def twenty_item_sample_sets(twenty_tabled_values, five_names):
     for t,row in enumerate(twenty_tabled_values):
         ss = SampleSet()
         for name,value in zip(five_names, row):
-            ss[name] = Sample(value, t=t)
+            ss[name] = Sample(value, t=LOAD_TIME + t)
         ret.append(ss)
     yield ret
+
+@pytest.fixture
+def twenty_item_data_set(twenty_item_sample_sets):
+    return DataTable(*twenty_item_sample_sets)
 
 @pytest.fixture(scope="session")
 def example_plugins():
