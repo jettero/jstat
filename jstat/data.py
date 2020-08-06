@@ -104,10 +104,10 @@ class SampleSet(OrderedDict):
 class DataTable:
     _time = Names(__package__, "time", "dt")
 
-    def __init__(self, *SampleSet, previous=None):
+    def __init__(self, *sample_sets, previous=None):
         self._headers = previous.headers if previous else [self._time]
         self._rows = dict()
-        for ss in SampleSet:
+        for ss in sample_sets:
             self.add_sample_set(ss)
 
     def add_sample_set(self, sample_set):
