@@ -1,16 +1,10 @@
 # pylint: disable=redefined-outer-name
 # coding: utf-8
 
-import pytest
-import jstat.manager
-
-
-@pytest.fixture(scope="session")
-def manager():
-    return jstat.manager.get_manager()
-
-
-def test_plugins(manager):
-    names = [x[0] for x in manager.list_name_plugin()]
+def test_plugins(jstat_mgr, example_plugins):
+    names = [x[0] for x in jstat_mgr.list_name_plugin()]
 
     assert "jstat.samplers.proc_stat" in names
+    assert len(example_plugins) > 0
+    for item in example_plugins:
+        assert item in names
