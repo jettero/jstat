@@ -67,7 +67,7 @@ class JstatManager(pluggy.PluginManager):
 
         self.add_hookspecs(jstat.spec)
         for m in self.local_modules:
-            log.debug("registering %m", m)
+            log.debug("registering %s", m)
             self.register(m)
             log.debug("registered %s", m)
 
