@@ -13,3 +13,6 @@ requirements.txt
 
 # virtualenv stuff
 venv
+
+# we build this lib-dir when testing
+example-plugins/lib
