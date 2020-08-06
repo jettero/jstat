@@ -1,6 +1,7 @@
 # pylint: disable=redefined-outer-name
 # coding: utf-8
 
+
 def test_plugins(jstat_mgr, example_plugins):
     names = [x[0] for x in jstat_mgr.list_name_plugin()]
 

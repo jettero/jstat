@@ -7,5 +7,5 @@ setup(
     author="Paul Miller",
     author_email="paul@jettero.pl",
     packages=["jpe"],
-    entry_points={"jstat_plugins": ["jpe=jpe.blah"]}
+    entry_points={"jstat_plugins": ["jpe=jpe.blah"]},
 )
