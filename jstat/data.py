@@ -100,17 +100,18 @@ class SampleSet(OrderedDict):
             v = Sample(v)
         super().__setitem__(k, v)
 
+
 class DataTable:
-    _time = Names(__package__, 'time', 'dt')
+    _time = Names(__package__, "time", "dt")
 
     def __init__(self, *SampleSet, previous=None):
         self._headers = previous.headers if previous else [self._time]
-        self._rows    = dict()
+        self._rows = dict()
         for ss in SampleSet:
             self.add_sample_set(ss)
 
     def add_sample_set(self, sample_set):
-        for name,sample in sample_set.items():
+        for name, sample in sample_set.items():
             t = int(sample.dt)
             if t not in self._rows:
                 self._rows[t] = d = dict()
@@ -126,7 +127,7 @@ class DataTable:
     @property
     def row_iter(self):
         for t in sorted(self._rows):
-            yield [ self._rows[t].get(name, None) for name in self.headers ]
+            yield [self._rows[t].get(name, None) for name in self.headers]
 
     @property
     def rows(self):
