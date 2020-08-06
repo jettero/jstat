@@ -84,6 +84,9 @@ class SampleSet(OrderedDict):
     It is *not* a table of historical data.
     """
 
+    def tableize(self, previous=None):
+        return DataTable(self, previous=previous)
+
     def __getitem__(self, k):
         k = _check_key(k)
         try:
@@ -96,3 +99,35 @@ class SampleSet(OrderedDict):
         if not isinstance(v, Sample):
             v = Sample(v)
         super().__setitem__(k, v)
+
+class DataTable:
+    def __init__(self, *SampleSet, previous=None):
+        self._headers = previous.headers if previous else ['time']
+        self._rows    = dict()
+        for ss in SampleSet:
+            self.add_sample_set(ss)
+
+    def add_sample_set(self, sample_set):
+        for name,sample in sample_set.items():
+            t = int(sample.dt)
+            if t not in self.rows:
+                self.rows[t] = dict()
+            self._rows[t][name] = sample.v
+            if name not in self._headers:
+                self._headers.append(name)
+
+    @property
+    def headers(self):
+        return self._headers
+
+    @property
+    def row_iter(self):
+        for t in sorted(self._rows):
+            yield [t] + [ self._rows[t].get(name, None) for name in self.headers ]
+
+    @property
+    def rows(self):
+        return list(self.row_iter)
+
+    def __iter__(self):
+        return self.headers, self.rows
