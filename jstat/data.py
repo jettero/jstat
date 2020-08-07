@@ -67,6 +67,11 @@ class Sample:
             return f"{self.v}{self.u}@{self.dt}"
         return f"{self.v}@{self.dt}"
 
+    def __eq__(self, other):
+        if isinstance(other, Sample):
+            return other.v == self.v
+        return self.v == other
+
 
 def _check_key(k):
     if isinstance(k, (list, tuple)) and len(k) == 3:
