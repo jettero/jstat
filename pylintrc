@@ -3,7 +3,7 @@ disable=missing-docstring, multiple-imports, invalid-name, bad-whitespace,
     multiple-statements, bare-except, relative-import, redefined-variable-type,
     too-few-public-methods, broad-except, fixme, too-many-public-methods,
     too-many-branches, bad-continuation, too-many-nested-blocks,
-    global-statement, inconsistent-return-statements
+    global-statement, inconsistent-return-statements, bad-reversed-sequence
 persistent=yes
 cache-size=500
 
@@ -29,6 +29,6 @@ max-returns         = 12
 max-statements      = 60
 
 # if it's 3, it's 3.  If it's 2, it's 2.  If it's 4, it's 11,
-# WHAT-THE-EVERLIVING-FUCK ; just disabling bad-continuation, it's broken.
+# WHAT-THE-EVERLIVING-FUCK ; just disable bad-continuation, it's broken.
 indent-after-paren  = 4
 # FUCK YOU

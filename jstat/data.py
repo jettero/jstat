@@ -73,8 +73,6 @@ class Sample:
         return self.v == other
 
 
-
-
 class SampleSet(OrderedDict):
     """
     A set (presumably of all) the samples from a mainloop step.  Really just an
@@ -89,8 +87,8 @@ class SampleSet(OrderedDict):
             for i in reversed(self):
                 if k in (i.name, i.disp, i.short, i.long):
                     return i
-            k = k.split('.')
-        if isinstance(k, (list, tuple)) and len(k) in (2,3):
+            k = k.split(".")
+        if isinstance(k, (list, tuple)) and len(k) in (2, 3):
             return Names(*k)
         if not isinstance(k, Names):
             raise ValueError(f"unable to resolve '{o}' into jstat.sample.Names")
