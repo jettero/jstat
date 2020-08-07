@@ -34,3 +34,8 @@ def test_names_keys():
     assert ss[n1]  == 8
     assert ss[n2]  == 8
     assert ss[n3]  == 9
+
+    assert ss['namehere'] == 9
+    assert ss['nh'] == 9
+    assert ss['p2.namehere'] == 9
+

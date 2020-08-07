@@ -73,12 +73,6 @@ class Sample:
         return self.v == other
 
 
-def _check_key(k):
-    if isinstance(k, (list, tuple)) and len(k) == 3:
-        return Names(*k)
-    if not isinstance(k, Names):
-        raise ValueError("sample keys should always be jstat.sample.Names")
-    return k
 
 
 class SampleSet(OrderedDict):
@@ -89,18 +83,31 @@ class SampleSet(OrderedDict):
     It is *not* a table of historical data.
     """
 
+    def _check_key(self, k):
+        o = k
+        if isinstance(k, str):
+            for i in reversed(self):
+                if k in (i.name, i.disp, i.short, i.long):
+                    return i
+            k = k.split('.')
+        if isinstance(k, (list, tuple)) and len(k) in (2,3):
+            return Names(*k)
+        if not isinstance(k, Names):
+            raise ValueError(f"unable to resolve '{o}' into jstat.sample.Names")
+        return k
+
     def tableize(self, previous=None):
         return DataTable(self, previous=previous)
 
     def __getitem__(self, k):
-        k = _check_key(k)
+        k = self._check_key(k)
         try:
             return super().__getitem__(k)
         except KeyError:
             pass
 
     def __setitem__(self, k, v):
-        k = _check_key(k)
+        k = self._check_key(k)
         if not isinstance(v, Sample):
             v = Sample(v)
         super().__setitem__(k, v)
