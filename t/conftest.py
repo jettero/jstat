@@ -3,12 +3,15 @@
 
 import os
 import sys
+import logging
 import subprocess
 from glob import glob
 
 import pytest
 import jstat.manager
 from jstat.data import Names, Sample, SampleSet, DataTable, LOAD_TIME
+
+log = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -55,27 +58,30 @@ def ss0(twenty_item_data_set):
 def twenty_item_data_set(twenty_item_sample_sets):
     return DataTable(*twenty_item_sample_sets)
 
-
 @pytest.fixture(scope="session")
+def jstat_mgr(example_plugins): # pylint: disable=unused-argument
+    yield jstat.manager.get_manager()
+
+@pytest.fixture(scope='session')
 def example_plugins():
     test_dir = os.path.dirname(__file__)
     src_dir = os.path.dirname(test_dir)
     example_dir = os.path.join(src_dir, "example-plugins")
-    elib_dir = os.path.join(example_dir, "lib")
 
-    sys.path.append(elib_dir)
+    names = list()
 
-    ret = list()
+    cwd = os.path.abspath( os.path.curdir )
 
-    base_cmd = ["pip", "install", "--target", elib_dir]
     for i in glob(os.path.join(example_dir, os.path.join("*", "setup.py"))):
         b = os.path.dirname(i)
-        ret.append(os.path.basename(b))
-        subprocess.check_call(base_cmd + [b])
+        n = os.path.basename(b)
 
-    yield ret
+        names.append(n)
+        sys.path.append(b)
+        os.chdir(b)
 
+        subprocess.check_call(['python', 'setup.py', 'egg_info'])
 
-@pytest.fixture(scope="session")
-def jstat_mgr(example_plugins):  # pylint: disable=unused-argument
-    yield jstat.manager.get_manager()
+    os.chdir(cwd)
+
+    yield names
