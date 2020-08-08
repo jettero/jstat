@@ -4,20 +4,14 @@
 import pluggy
 from jstat.data import SampleSet
 
-sampler_hookspec = pluggy.HookspecMarker("jstat")
-sampler_hookimpl = pluggy.HookimplMarker("jstat")
-
-formatter_hookspec = pluggy.HookspecMarker("jstat")
-formatter_hookimpl = pluggy.HookimplMarker("jstat")
-
-visualizer_hookspec = pluggy.HookspecMarker("jstat")
-visualizer_hookimpl = pluggy.HookimplMarker("jstat")
+hookspec = pluggy.HookspecMarker("jstat")
+hookimpl = pluggy.HookimplMarker("jstat")
 
 # Nothing actually runs these specs functions. They're given actions to
 # demonstrate what you're meant to do with them.
 
 
-@sampler_hookspec
+@hookspec
 def get_samples():
     # A SampleSet just a collection of samples, not ordered in a table.
     # Most plugins will produce more than one sample per loop. For example, the
@@ -26,13 +20,22 @@ def get_samples():
     return SampleSet()
 
 
-@formatter_hookspec
-def format_samples(sample):
-    # alter the appearance, scaling, units, etc
-    return sample
+@hookspec(firstresult=True)
+def format_header(names):
+    # choose one of the names
+    return name.disp
 
 
-@visualizer_hookspec
+@hookspec(firstresult=True)
+def format_sample(sample):
+    # reformat seconds into hours or adjust the shown precision
+    return sample.v
+
+
+@hookspec
 def visualize_samples(sample_set):
     headers, rows = sample_set.tableize()
     print(f"headers={headers}\nrows={rows}")
+
+
+del hookspec

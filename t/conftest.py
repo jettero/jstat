@@ -47,6 +47,11 @@ def twenty_item_sample_sets(twenty_tabled_values, five_names):
 
 
 @pytest.fixture
+def ss0(twenty_item_data_set):
+    yield twenty_item_data_set[0]
+
+
+@pytest.fixture
 def twenty_item_data_set(twenty_item_sample_sets):
     return DataTable(*twenty_item_sample_sets)
 

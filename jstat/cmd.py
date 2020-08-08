@@ -9,4 +9,8 @@ import jstat.manager
 def run():
     m = jstat.manager.get_manager()
     for i in m.hook.get_samples():
-        print(f"i={i}")
+        for names, sample in i.items():
+            header = m.hook.format_header(names=names)
+            sample = m.hook.format_sample(sample=sample)
+
+            print(f"{header}: {sample}")

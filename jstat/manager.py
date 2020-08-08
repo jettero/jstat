@@ -13,7 +13,7 @@ INSTALLED_DIR = os.path.dirname(jstat.spec.__file__)
 
 log = logging.getLogger(__name__)
 
-NAMESPACES = ("jstat.samplers", "jstat.visualizers")
+NAMESPACES = ("jstat.samplers", "jstat.formatters", "jstat.visualizers")
 
 
 class JstatManager(pluggy.PluginManager):
