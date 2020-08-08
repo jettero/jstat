@@ -23,7 +23,7 @@ def get_samples():
 @hookspec(firstresult=True)
 def format_header(names):
     # choose one of the names
-    return name.disp
+    return names.disp
 
 
 @hookspec(firstresult=True)

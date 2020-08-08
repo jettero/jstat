@@ -58,11 +58,13 @@ def ss0(twenty_item_data_set):
 def twenty_item_data_set(twenty_item_sample_sets):
     return DataTable(*twenty_item_sample_sets)
 
+
 @pytest.fixture(scope="session")
-def jstat_mgr(example_plugins): # pylint: disable=unused-argument
+def jstat_mgr(example_plugins):  # pylint: disable=unused-argument
     yield jstat.manager.get_manager()
 
-@pytest.fixture(scope='session')
+
+@pytest.fixture(scope="session")
 def example_plugins():
     test_dir = os.path.dirname(__file__)
     src_dir = os.path.dirname(test_dir)
@@ -70,7 +72,7 @@ def example_plugins():
 
     names = list()
 
-    cwd = os.path.abspath( os.path.curdir )
+    cwd = os.path.abspath(os.path.curdir)
 
     for i in glob(os.path.join(example_dir, os.path.join("*", "setup.py"))):
         b = os.path.dirname(i)
@@ -80,7 +82,7 @@ def example_plugins():
         sys.path.append(b)
         os.chdir(b)
 
-        subprocess.check_call(['python', 'setup.py', 'egg_info'])
+        subprocess.check_call(["python", "setup.py", "egg_info"])
 
     os.chdir(cwd)
 
