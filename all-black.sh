@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-CMD="${1:-black}"
+if [ $# -lt 1 ]
+then set -- black
+fi
 
-find jstat t example-plugins -type f -name \*.py -print0 \
-    | xargs -r0 "$CMD"
+for cmd in "$@"
+do find jstat t example-plugins -type f -name \*.py -print0 | xargs -r0 "$cmd"
+done

@@ -194,7 +194,7 @@ class DataTable:
         previous=None,
         format_header=None,
         format_sample=None,
-        filter=None,
+        filter_=None,
     ):
         self._rows = dict()
         for ss in sample_sets:
@@ -203,12 +203,12 @@ class DataTable:
         self.format_sample = format_sample or (lambda x: x.v)
         self._time_name = self.format_header(names=self._time)
         self._headers = previous.headers if previous else [self._time_name]
-        self.filter = filter
+        self.filter_ = filter_
 
     def match_filter(self, target):
-        if not self.filter:
+        if not self.filter_:
             return True
-        for f in self.filter:
+        for f in self.filter_:
             for n in target.as_tuple:
                 if fnmatch.fnmatch(n, f):
                     return True

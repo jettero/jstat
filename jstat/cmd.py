@@ -10,12 +10,12 @@ from jstat.data import DataTable
 
 
 @click.command()
-@click.option("--filter", "-f", type=str, multiple=True)
-def run(filter):
+@click.option("--filter", "-f", "filter_", type=str, multiple=True)
+def run(filter_):
     m = jstat.manager.get_manager()
     m.hook.get_samples()
     dt = DataTable(
-        filter=filter,
+        filter_=filter_,
         format_header=m.hook.format_header,
         format_sample=m.hook.format_sample,
     )
@@ -24,6 +24,6 @@ def run(filter):
         for ss in m.hook.get_samples():
             dt.add_sample_set(ss)
         t = tabulate.tabulate(dt.rows, headers=dt.headers)
-        for i in range(100):
+        for _ in range(100):
             print()
         print(t)
