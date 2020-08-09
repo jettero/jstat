@@ -127,6 +127,9 @@ class Sample:
             raise TypeError(f"differing units ('{self.u}' vs '{other.u}')")
         return Sample(self.v - other, u=self.u)
 
+    def __bool__(self):
+        return bool(self.v)
+
 
 class SampleSet(OrderedDict):
     """
@@ -211,3 +214,12 @@ class DataTable:
 
     def __iter__(self):
         yield from (self.headers, self.rows)
+
+
+_STORAGE = dict()
+
+
+def get_storage(x):
+    if x not in _STORAGE:
+        _STORAGE[x] = dict()
+    return _STORAGE[x]
