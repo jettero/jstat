@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import time
+import fnmatch
 from collections import OrderedDict
 
 LOAD_TIME = time.time()
@@ -44,6 +45,10 @@ class Names:
 
     def __ne__(self, other):
         return not (self == other)
+
+    @property
+    def as_tuple(self):
+        return (self.pkg, self.name, self.disp, self.long)
 
     @property
     def very_long(self):
@@ -183,19 +188,41 @@ class SampleSet(OrderedDict):
 class DataTable:
     _time = Names(__package__, "time", "dt")
 
-    def __init__(self, *sample_sets, previous=None):
-        self._headers = previous.headers if previous else [self._time]
+    def __init__(
+        self,
+        *sample_sets,
+        previous=None,
+        format_header=None,
+        format_sample=None,
+        filter=None,
+    ):
         self._rows = dict()
         for ss in sample_sets:
             self.add_sample_set(ss)
+        self.format_header = format_header or (lambda x: x.disp)
+        self.format_sample = format_sample or (lambda x: x.v)
+        self._time_name = self.format_header(names=self._time)
+        self._headers = previous.headers if previous else [self._time_name]
+        self.filter = filter
+
+    def match_filter(self, target):
+        if not self.filter:
+            return True
+        for f in self.filter:
+            for n in target.as_tuple:
+                if fnmatch.fnmatch(n, f):
+                    return True
 
     def add_sample_set(self, sample_set):
-        for name, sample in sample_set.items():
+        for names, sample in sample_set.items():
+            if not sample or not self.match_filter(names):
+                continue
             t = int(sample.lt)
             if t not in self._rows:
                 self._rows[t] = d = dict()
-                d[self._time] = t
-            self._rows[t][name] = sample.v
+                d[self._time_name] = t
+            name = self.format_header(names=names)
+            self._rows[t][name] = self.format_sample(sample=sample)
             if name not in self._headers:
                 self._headers.append(name)
 
