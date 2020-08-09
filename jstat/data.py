@@ -69,21 +69,40 @@ class Sample:
     Container for a sample, which has a time and a value.
     :Sample.t: time.time() by default
     :Sample.v: the actual value
+    :Sample.u: the units as a string, if any
+    :Sample.d: the time of some other thing
+
+    Dynamic Properties
+    :Sample.dt: gives the difference Sample.t - Sample.d
+    :Sample.lt: gives the difference between LOAD_TIME and Sample.t
     """
 
-    def __init__(self, value, units=None, t=None):
-        self.v = value
+    def __init__(self, v, u=None, t=None, d=None):
+        self.v = v
         self.t = time.time() if t is None else t
-        self.u = units
+        self.u = u
+        self.d = d
 
     @property
     def dt(self):
+        if self.d is None:
+            return None
+        return self.t - self.d
+
+    @dt.setter
+    def dt(self, v):
+        self.d = v + self.t
+
+    @property
+    def lt(self):
         return self.t - LOAD_TIME
 
+    @lt.setter
+    def lt(self, v):
+        self.t = LOAD_TIME + v
+
     def __repr__(self):
-        if self.u:
-            return f"{self.v}{self.u}@{self.dt}"
-        return f"{self.v}@{self.dt}"
+        return f'Sample({self.v}, u={self.u}, t={self.t:0.2f}, d={self.d:0.2f})'
 
     def __eq__(self, other):
         if isinstance(other, Sample):
@@ -140,7 +159,7 @@ class DataTable:
 
     def add_sample_set(self, sample_set):
         for name, sample in sample_set.items():
-            t = int(sample.dt)
+            t = int(sample.lt)
             if t not in self._rows:
                 self._rows[t] = d = dict()
                 d[self._time] = t
