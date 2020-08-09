@@ -1,13 +1,14 @@
 # coding: utf-8
 
 import time
-from collections import OrderedDict, namedtuple
+from collections import OrderedDict
 
 LOAD_TIME = time.time()
 UREG = None
 
 try:
     import pint
+
     UREG = pint.UnitRegistry()
 except:
     pass
@@ -22,7 +23,7 @@ class Names:
     """
 
     def __init__(self, pkg, name, disp=None, short=None):
-        if name.startswith(f'{pkg}.'):
+        if name.startswith(f"{pkg}."):
             name = name[len(pkg) + 1 :]
 
         if short is not None:
@@ -35,7 +36,6 @@ class Names:
         self.name = name
         self.disp = disp
 
-
     def __hash__(self):
         return hash(self.very_long)
 
@@ -43,7 +43,7 @@ class Names:
         return isinstance(other, Names) and self.very_long == other.very_long
 
     def __ne__(self, other):
-        return not(self == other)
+        return not (self == other)
 
     @property
     def very_long(self):
@@ -68,7 +68,7 @@ class Names:
         self.disp = v
 
     def __repr__(self):
-        return f'<{self.very_long}>'
+        return f"<{self.very_long}>"
 
 
 class Sample:
@@ -109,7 +109,7 @@ class Sample:
         self.t = LOAD_TIME + v
 
     def __repr__(self):
-        return f'Sample({self.v}, u={self.u}, t={self.t:0.2f}, d={self.d:0.2f})'
+        return f"Sample({self.v}, u={self.u}, t={self.t:0.2f}, d={self.d:0.2f})"
 
     def __eq__(self, other):
         if isinstance(other, Sample):
@@ -125,7 +125,7 @@ class Sample:
                 ov = other.v * UREG[other.u]
                 return Sample((sv - ov).to(self.u).magnitude, u=self.u, d=other.t)
             raise TypeError(f"differing units ('{self.u}' vs '{other.u}')")
-        return Sample(self.v - other, units=self.u)
+        return Sample(self.v - other, u=self.u)
 
 
 class SampleSet(OrderedDict):
@@ -175,6 +175,7 @@ class SampleSet(OrderedDict):
             for k in self:
                 ret[k] = self[k] - other
         return ret
+
 
 class DataTable:
     _time = Names(__package__, "time", "dt")
