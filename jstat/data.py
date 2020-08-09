@@ -184,11 +184,14 @@ class SampleSet(OrderedDict):
                 ret[k] = self[k] - other
         return ret
 
+
 def _default_header_format(names=None):
     return names.disp
 
+
 def _default_sample_format(sample=None):
     return sample.v
+
 
 class DataTable:
     _time = Names(__package__, "time", "dt")
