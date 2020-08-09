@@ -6,16 +6,16 @@ from collections import OrderedDict, namedtuple
 LOAD_TIME = time.time()
 
 
-class Names(namedtuple("_Names", ["pkg", "name", "disp"])):
+class Names:
     """
     Container for information about where a value came from.
     :Names.pkg: The package that contains the ``name``
     :Names.name: The name of the class or function that produced this value
-    :Names.short: The short or display name for the value (e.g., duration, size, etc)
+    :Names.disp: The short or display name for the value (e.g., duration, size, etc)
     """
 
-    def __new__(cls, pkg, name, disp=None, short=None):
-        if name.startswith(pkg):
+    def __init__(self, pkg, name, disp=None, short=None):
+        if name.startswith(f'{pkg}.'):
             name = name[len(pkg) + 1 :]
 
         if short is not None:
@@ -24,7 +24,25 @@ class Names(namedtuple("_Names", ["pkg", "name", "disp"])):
         if disp is None:
             disp = name
 
-        return super().__new__(cls, pkg, name, disp)
+        self.pkg = pkg
+        self.name = name
+        self.disp = disp
+
+
+    def __hash__(self):
+        return hash(self.very_long)
+
+    def __eq__(self, other):
+        return isinstance(other, Names) and self.very_long == other.very_long
+
+    def __ne__(self, other):
+        return not(self == other)
+
+    @property
+    def very_long(self):
+        if self.disp and self.disp != self.name:
+            return f"{self.pkg}.{self.name}:{self.disp}"
+        return f"{self.pkg}.{self.name}"
 
     @property
     def long(self):
@@ -36,14 +54,14 @@ class Names(namedtuple("_Names", ["pkg", "name", "disp"])):
 
     @property
     def short(self):
-        return f"{self.disp}"
+        return self.disp
 
     @short.setter
     def short(self, v):
         self.disp = v
 
     def __repr__(self):
-        return f"<{self.name}:{self.disp}>"
+        return f'<{self.very_long}>'
 
 
 class Sample:
