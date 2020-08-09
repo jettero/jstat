@@ -4,6 +4,13 @@ import time
 from collections import OrderedDict, namedtuple
 
 LOAD_TIME = time.time()
+UREG = None
+
+try:
+    import pint
+    UREG = pint.UnitRegistry()
+except:
+    pass
 
 
 class Names:
@@ -109,6 +116,17 @@ class Sample:
             return other.v == self.v
         return self.v == other
 
+    def __sub__(self, other):
+        if isinstance(other, Sample):
+            if self.u == other.u:
+                return Sample(self.v - other.v, u=self.u, d=other.t)
+            if self.u and other.u and UREG:
+                sv = self.v * UREG[self.u]
+                ov = other.v * UREG[other.u]
+                return Sample((sv - ov).to(self.u).magnitude, u=self.u, d=other.t)
+            raise TypeError(f"differing units ('{self.u}' vs '{other.u}')")
+        return Sample(self.v - other, units=self.u)
+
 
 class SampleSet(OrderedDict):
     """
@@ -147,6 +165,16 @@ class SampleSet(OrderedDict):
             v = Sample(v)
         super().__setitem__(k, v)
 
+    def __sub__(self, other):
+        ret = self.__class__()
+        if isinstance(other, SampleSet):
+            for k in self:
+                if k in other:
+                    ret[k] = self[k] - other[k]
+        else:
+            for k in self:
+                ret[k] = self[k] - other
+        return ret
 
 class DataTable:
     _time = Names(__package__, "time", "dt")
