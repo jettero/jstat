@@ -24,6 +24,7 @@ CPU_FIELDS = (
 def _time_decode(x):
     return int(int(x) / SC_CLK_TCK)
 
+
 @hookimpl
 def get_samples():
     cur = SampleSet()
@@ -41,8 +42,8 @@ def get_samples():
                         name = "irq.total" if i == 0 else f"irq{i}"
                         cur[Names(pkg=__package__, name=name)] = Sample(v)
     sdb = get_storage(__name__)
-    lst = sdb.get('last', cur)
+    lst = sdb.get("last", cur)
 
-    sdb['last'] = cur
+    sdb["last"] = cur
 
     return cur - lst
