@@ -184,6 +184,11 @@ class SampleSet(OrderedDict):
                 ret[k] = self[k] - other
         return ret
 
+def _default_header_format(names=None):
+    return names.disp
+
+def _default_sample_format(sample=None):
+    return sample.v
 
 class DataTable:
     _time = Names(__package__, "time", "dt")
@@ -197,8 +202,8 @@ class DataTable:
         filter_=None,
     ):
         self._rows = dict()
-        self.format_header = format_header or (lambda x: x.disp)
-        self.format_sample = format_sample or (lambda x: x.v)
+        self.format_header = format_header or _default_header_format
+        self.format_sample = format_sample or _default_sample_format
         self._time_name = self.format_header(names=self._time)
         self._headers = previous.headers if previous else [self._time_name]
         self.filter_ = filter_

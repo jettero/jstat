@@ -13,7 +13,7 @@ def test_dataset(twenty_item_data_set, twenty_tabled_values, five_names):
     headers, rows = twenty_item_data_set
 
     assert len(rows) == len(twenty_tabled_values)
-    assert headers[1:] == five_names
+    assert headers[1:] == [ x.disp for x in five_names ]
 
     for ds_row, tv_row in zip(rows, twenty_tabled_values):
         assert tuple(ds_row[1:]) == tv_row
