@@ -197,13 +197,13 @@ class DataTable:
         filter_=None,
     ):
         self._rows = dict()
-        for ss in sample_sets:
-            self.add_sample_set(ss)
         self.format_header = format_header or (lambda x: x.disp)
         self.format_sample = format_sample or (lambda x: x.v)
         self._time_name = self.format_header(names=self._time)
         self._headers = previous.headers if previous else [self._time_name]
         self.filter_ = filter_
+        for ss in sample_sets:
+            self.add_sample_set(ss)
 
     def match_filter(self, target):
         if not self.filter_:
